@@ -1,6 +1,6 @@
 {
   "name": "dept",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Dependencies templates management CLI to install your fixed NPM dependencies and cofing files.",
   "bin": {
     "dept": "src/index.js"
