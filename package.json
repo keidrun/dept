@@ -1,0 +1,69 @@
+{
+  "name": "dept",
+  "version": "0.0.1",
+  "description": "Dependencies templates management CLI to install your fixed NPM dependencies and cofing files.",
+  "bin": {
+    "dept": "src/index.js"
+  },
+  "preferGlobal": true,
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "keywords": [
+    "dept",
+    "cli",
+    "template",
+    "npm",
+    "yarn",
+    "dependencies",
+    "devDependencies",
+    "config"
+  ],
+  "repository": "https://github.com/keidrun/dept.git",
+  "author": "Keid",
+  "license": "MIT",
+  "dependencies": {
+    "yargs": "^12.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.25.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "husky": "^1.1.2",
+    "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3"
+  },
+  "lint-staged": {
+    "src/**/**.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "testRegex": "(/__test__/.*|(\\.|/)(test|spec))\\.js$",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
+  },
+  "scripts": {
+    "start": "NODE_ENV='production' node src/index.js",
+    "dev": "NODE_ENV='development' node src/index.js",
+    "test": "jest",
+    "lint": "eslint --fix 'src/**/*.js'",
+    "precommit": "lint-staged"
+  }
+}
