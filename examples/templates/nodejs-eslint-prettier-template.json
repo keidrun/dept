@@ -1,0 +1,99 @@
+{
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "*",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-node": "*",
+    "prettier": "*",
+    "eslint-plugin-prettier": "*",
+    "eslint-config-prettier": "*",
+    "jest": "*",
+    "eslint-plugin-jest": "*",
+    "husky": "*",
+    "lint-staged": "*"
+  },
+  "files": {
+    ".eslintrc": {
+      "extends": [
+        "airbnb-base",
+        "plugin:prettier/recommended",
+        "plugin:jest/recommended"
+      ],
+      "plugins": [
+        "node",
+        "prettier",
+        "jest"
+      ],
+      "env": {
+        "node": true
+      },
+      "parserOptions": {
+        "ecmaVersion": 8
+      },
+      "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "trailingComma": "all",
+            "singleQuote": true,
+            "semi": true,
+            "printWidth": 80
+          }
+        ],
+        "node/exports-style": [
+          "error",
+          "module.exports"
+        ],
+        "node/no-deprecated-api": "error",
+        "node/no-missing-import": "error",
+        "node/no-missing-require": "error",
+        "node/no-unpublished-bin": "error",
+        "node/no-unpublished-import": "error",
+        "node/no-unpublished-require": "error",
+        "node/no-unsupported-features": "error",
+        "node/process-exit-as-throw": "error",
+        "node/shebang": "error",
+        "no-unused-vars": [
+          "warn",
+          {
+            "vars": "all"
+          }
+        ],
+        "arrow-body-style": [
+          "error",
+          "as-needed"
+        ],
+        "no-console": "off",
+        "radix": "warn",
+        "no-shadow": [
+          "error",
+          {
+            "builtinGlobals": false,
+            "hoist": "all",
+            "allow": [
+              "resolve",
+              "reject",
+              "done",
+              "next",
+              "err",
+              "error",
+              "cb",
+              "callback"
+            ]
+          }
+        ],
+        "quotes": [
+          "error",
+          "single",
+          {
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
+          }
+        ],
+        "no-underscore-dangle": "off"
+      }
+    },
+    ".travis.yml": "language: node_js\nnode_js:\n  - \"10\""
+  }
+}

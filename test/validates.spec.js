@@ -26,6 +26,7 @@ const templatesObj = {
           node: true,
         },
       },
+      fileB: 'language: node_js\nnode_js:\n  - "10"',
     },
   },
 };

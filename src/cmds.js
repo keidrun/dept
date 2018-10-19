@@ -3,6 +3,13 @@ const { validateTemplate } = require('./validates');
 const npmExec = require('./npmExec');
 const { INSTALL_DIR_PATH } = require('../config/config')(process.env.NODE_ENV);
 
+const _promiseAllSerially = async promises => {
+  await promises.reduce(
+    (prevPromise, currentPromise) => prevPromise.then(currentPromise),
+    Promise.resolve(true),
+  );
+};
+
 const _initialize = async () => {
   if (!(await dataControl.isFileExisted())) {
     await dataControl.init();
@@ -97,29 +104,19 @@ const install = async (templateName, isInit, isYarn) => {
 
     const targetTemplate = templates[targetTemplateName];
 
-    const depPromises = Object.entries(targetTemplate.dependencies || {}).map(
-      async dep => {
-        try {
-          const moduleName = `${dep[0]}@${dep[1]}`;
-          await npmExec.add(moduleName, { isYarn });
-          return Promise.resolve(true);
-        } catch (error) {
-          throw error;
-        }
-      },
+    const depModuleNames = Object.entries(
+      targetTemplate.dependencies || {},
+    ).map(dep => `${dep[0]}@${dep[1]}`);
+    const depPromises = depModuleNames.map(moduleName => () =>
+      npmExec.add(moduleName, { isYarn }),
     );
 
-    const devDepPromises = Object.entries(
+    const devDepModuleNames = Object.entries(
       targetTemplate.devDependencies || {},
-    ).map(async dep => {
-      try {
-        const moduleName = `${dep[0]}@${dep[1]}`;
-        await npmExec.add(moduleName, { isDev: true, isYarn });
-        return Promise.resolve(true);
-      } catch (error) {
-        throw error;
-      }
-    });
+    ).map(dep => `${dep[0]}@${dep[1]}`);
+    const devDepPromises = devDepModuleNames.map(moduleName => () =>
+      npmExec.add(moduleName, { isDev: true, isYarn }),
+    );
 
     const filePromises = Object.entries(targetTemplate.files || {}).map(
       async file => {
@@ -136,8 +133,9 @@ const install = async (templateName, isInit, isYarn) => {
       },
     );
 
-    await Promise.all(depPromises);
-    await Promise.all(devDepPromises, filePromises);
+    await _promiseAllSerially(depPromises);
+    await _promiseAllSerially(devDepPromises);
+    await Promise.all(filePromises);
     console.log(`dependencies, devDependencies and files were installed`);
   } catch (error) {
     console.error(`ERROR: ${error}`);

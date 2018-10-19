@@ -31,7 +31,11 @@ const read = ({ path } = { path: TEMPLATE_FILE_PATH }) =>
   promisify(fs.readFile)(path, 'utf8').then(data => JSON.parse(data));
 
 const write = async (contentObj, { path } = { path: TEMPLATE_FILE_PATH }) => {
-  await promisify(fs.writeFile)(path, JSON.stringify(contentObj), 'utf8');
+  if (typeof contentObj === 'string') {
+    await promisify(fs.writeFile)(path, contentObj, 'utf8');
+  } else {
+    await promisify(fs.writeFile)(path, JSON.stringify(contentObj), 'utf8');
+  }
   return Promise.resolve(contentObj);
 };
 

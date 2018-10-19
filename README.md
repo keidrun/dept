@@ -48,27 +48,24 @@ For example:
   },
   "files": {
     "file-name-A.json": {
-      "any-prop": {
-        "any-arr": [
-          "any-1",
-          "any-2",
-          "any-3"
-        ]
-      }
-    },
-    "file-name-B.json": {
-      "any-prop-1": {
-        "any-obj": {
+      "any-prop-1": [
+          "any-element-1",
+          "any-element-2",
+          "any-element-3"
+      ],
+      "any-prop-2": {
           "any-value-1": 123,
           "any-value-2": true,
           "any-value-3": "something"
-        }
       },
-      "any-prop-2": "anything"
-    }
+      "any-prop-3": "anything"
+    },
+    "file-name-B.txt": "Hello World"
   }
 }
 ```
+
+Real world's templates examples are [HERE](/examples/EXAMPLES.md).
 
 ## Use cases
 
@@ -118,7 +115,7 @@ $ dept install --init --yarn
 
 ### Specify a template from your fixed templates
 
-Of course, you can specify a template you'd like to use in your project after `dept install` to ignore a default template.
+Of course, you can specify a template you'd like to use in your project after `dept install`.
 
 ```bash
 $ dept list
