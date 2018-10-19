@@ -3,12 +3,14 @@ const { validateTemplate } = require('./validates');
 const npmExec = require('./npmExec');
 const { INSTALL_DIR_PATH } = require('../config/config')(process.env.NODE_ENV);
 
-const _promiseAllSerially = async promises => {
-  await promises.reduce(
+const _promiseAllSerially = promises =>
+  promises.reduce(
     (prevPromise, currentPromise) => prevPromise.then(currentPromise),
-    Promise.resolve(true),
+    Promise.resolve(),
   );
-};
+
+const _promiseAllParallelly = promises =>
+  Promise.all(promises.map(promise => promise()));
 
 const _initialize = async () => {
   if (!(await dataControl.isFileExisted())) {
@@ -119,7 +121,7 @@ const install = async (templateName, isInit, isYarn) => {
     );
 
     const filePromises = Object.entries(targetTemplate.files || {}).map(
-      async file => {
+      file => async () => {
         try {
           const fileName = file[0];
           const fileContent = file[1];
@@ -135,7 +137,7 @@ const install = async (templateName, isInit, isYarn) => {
 
     await _promiseAllSerially(depPromises);
     await _promiseAllSerially(devDepPromises);
-    await Promise.all(filePromises);
+    await _promiseAllParallelly(filePromises);
     console.log(`dependencies, devDependencies and files were installed`);
   } catch (error) {
     console.error(`ERROR: ${error}`);
@@ -149,8 +151,11 @@ const add = async (templateName, templateJsonString) => {
     const templateObj = JSON.parse(templateJsonString);
 
     const templates = await dataControl.read();
-    if (Object.keys(templates).length === 0) templateObj.default = true;
-    else templateObj.default = false;
+    if (Object.keys(templates).length === 0) {
+      templateObj.default = true;
+    } else {
+      templateObj.default = false;
+    }
 
     const { errors } = validateTemplate(templateObj);
     if (errors.length > 0) throw new Error(errors.join(','));
@@ -187,6 +192,27 @@ const remove = async templateName => {
   }
 };
 
+const rename = async (templateName, newTemplateName) => {
+  try {
+    await _initialize();
+
+    const templates = await dataControl.read();
+
+    if (!Object.keys(templates).includes(templateName))
+      throw new Error(`Not such a templateName: '${templateName}'`);
+
+    const newTemplateObj = templates[templateName];
+
+    await dataControl.remove(templateName);
+    await dataControl.add(newTemplateName, newTemplateObj);
+    console.log(
+      `the template '${templateName}' was renamed to: '${newTemplateName}'`,
+    );
+  } catch (error) {
+    console.error(`ERROR: ${error}`);
+  }
+};
+
 module.exports = {
   list,
   show,
@@ -195,4 +221,5 @@ module.exports = {
   add,
   addFromFile,
   remove,
+  rename,
 };

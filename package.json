@@ -1,6 +1,6 @@
 {
   "name": "dept",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "Dependencies templates management CLI to install your fixed NPM or Yarn dependencies and cofing files to your project.",
   "bin": {
     "dept": "src/index.js"

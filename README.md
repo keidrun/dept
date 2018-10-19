@@ -17,6 +17,8 @@ Commands:
   dept add [templateName]      add a template with '--data' or '--file'
                                    options                          [aliases: a]
   dept remove [templateName]   remove a template                    [aliases: r]
+  dept rename [templateName]   rename a template name
+  [newTemplateName]                                                [aliases: mv]
 
 Options:
   --version, -v  Show version                                          [boolean]

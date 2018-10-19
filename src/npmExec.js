@@ -1,6 +1,11 @@
 const { spawn } = require('child_process');
 
-const version = ({ isYarn } = { isYarn: false }, display = console.log) =>
+const version = (
+  { isYarn = false, display = console.log } = {
+    isYarn: false,
+    display: console.log,
+  },
+) =>
   new Promise((resolve, reject) => {
     let child;
     if (isYarn) {
@@ -36,7 +41,12 @@ const version = ({ isYarn } = { isYarn: false }, display = console.log) =>
     }
   });
 
-const init = ({ isYarn } = { isYarn: false }, display = console.log) =>
+const init = (
+  { isYarn = false, display = console.log } = {
+    isYarn: false,
+    display: console.log,
+  },
+) =>
   new Promise((resolve, reject) => {
     let child;
     if (isYarn) {
@@ -74,11 +84,11 @@ const init = ({ isYarn } = { isYarn: false }, display = console.log) =>
 
 const add = (
   moduleName,
-  { isDev, isYarn } = {
+  { isDev = false, isYarn = false, display = console.log } = {
     isDev: false,
     isYarn: false,
+    display: console.log,
   },
-  display = console.log,
 ) =>
   new Promise((resolve, reject) => {
     let child;
@@ -121,8 +131,10 @@ const add = (
 
 const remove = (
   moduleName,
-  { isYarn } = { isYarn: false },
-  display = console.log,
+  { isYarn = false, display = console.log } = {
+    isYarn: false,
+    display: console.log,
+  },
 ) =>
   new Promise((resolve, reject) => {
     let child;

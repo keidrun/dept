@@ -34,6 +34,11 @@ const argv = yargs // eslint-disable-line
     aliases: ['r'],
     describe: 'remove a template',
   })
+  .command({
+    command: 'rename [templateName] [newTemplateName]',
+    aliases: ['mv'],
+    describe: 'rename a template name',
+  })
   .option('yarn', {
     describe: "use 'yarn' instead of 'npm'",
     alias: 'y',
@@ -78,6 +83,8 @@ if (command === 'list' || command === 'ls') {
   }
 } else if (command === 'remove' || command === 'r') {
   cmds.remove(argv.templateName);
+} else if (command === 'rename' || command === 'mv') {
+  cmds.rename(argv.templateName, argv.newTemplateName);
 } else if (command) {
   console.log(`Not such a command: '${command}'`);
 } else {

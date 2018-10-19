@@ -4,12 +4,14 @@ const { DIR_PATH, TEMPLATE_FILE_PATH } = require('../config/config')(
   process.env.NODE_ENV,
 );
 
-const _isDirExisted = ({ dirPath } = { dirPath: DIR_PATH }) =>
+const _isDirExisted = ({ dirPath = DIR_PATH } = { dirPath: DIR_PATH }) =>
   promisify(fs.stat)(dirPath)
     .then(() => true)
     .catch(() => false);
 
-const isFileExisted = ({ path } = { path: TEMPLATE_FILE_PATH }) =>
+const isFileExisted = (
+  { path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH },
+) =>
   promisify(fs.stat)(path)
     .then(() => true)
     .catch(() => false);
@@ -27,10 +29,13 @@ const init = async () => {
   return Promise.resolve(initialData);
 };
 
-const read = ({ path } = { path: TEMPLATE_FILE_PATH }) =>
+const read = ({ path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }) =>
   promisify(fs.readFile)(path, 'utf8').then(data => JSON.parse(data));
 
-const write = async (contentObj, { path } = { path: TEMPLATE_FILE_PATH }) => {
+const write = async (
+  contentObj,
+  { path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH },
+) => {
   if (typeof contentObj === 'string') {
     await promisify(fs.writeFile)(path, contentObj, 'utf8');
   } else {
