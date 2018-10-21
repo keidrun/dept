@@ -9,23 +9,28 @@ $ dept -h
 Usage: dept <command> [options]
 
 Commands:
-  dept list                    show all templates                  [aliases: ls]
-  dept show [templateName]     show a template in details           [aliases: s]
-  dept default [templateName]  use a template by default           [aliases: df]
-  dept install [templateName]  install dependencies and config files from a
+  dept list                    Show all templates                  [aliases: ls]
+  dept show [templateName]     Show a template in details           [aliases: s]
+  dept default [templateName]  Use a template by default           [aliases: df]
+  dept install [templateName]  Install dependencies and config files from a
                                    template                         [aliases: i]
-  dept add [templateName]      add a template with '--data' or '--file'
+  dept add [templateName]      Add a template with '--data' or '--file'
                                    options                          [aliases: a]
-  dept remove [templateName]   remove a template                    [aliases: r]
-  dept rename [templateName]   rename a template name
+  dept remove [templateName]   Remove a template                    [aliases: r]
+  dept rename [templateName]   Rename a template name
   [newTemplateName]                                                [aliases: mv]
+  dept export [templateName]   Export a JSON template file          [aliases: e]
 
 Options:
   --version, -v  Show version                                          [boolean]
-  --yarn, -y     use 'yarn' instead of 'npm'                    [default: false]
-  --init, -i     initialize 'package.json'                      [default: false]
-  --data, -d     specify a JSON data string with 'add' command          [string]
-  --file, -f     specify a JSON template file with 'add' command        [string]
+  --yarn, -y     Use 'yarn' instead of 'npm'                    [default: false]
+  --init, -i     Initialize 'package.json'                      [default: false]
+  --data, -d     Specify a JSON data string with 'add' command          [string]
+  --file, -f     Specify a JSON template file with 'add' command        [string]
+  --filename, -n  Specify a filename of a JSON template file with 'export'
+                  command                                               [string]
+  --out-dir, -o   Specify an output directory path to export a JSON template
+                  file with 'export' command                            [string]
   --help, -h     Show help                                             [boolean]
 ```
 
@@ -126,6 +131,18 @@ $ dept list
   vue-nuxt
 $ cd your-app
 $ dept install express-typescript --yarn
+```
+
+### Export a template file as JSON format
+
+You can export a JSON template file with `dept export` to share it.
+
+```bash
+$ dept list
+* react-eslint-prettier
+  express-typescript
+  vue-nuxt
+$ dept export react-eslint-prettier --filename fixed-react-eslint-prettier.json --out-dir ./fixed-templates-dir
 ```
 
 [npm-url]: https://npmjs.org/package/dept

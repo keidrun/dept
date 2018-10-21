@@ -1,7 +1,9 @@
 const dataControl = require('./dataControl');
 const { validateTemplate } = require('./validates');
 const npmExec = require('./npmExec');
-const { INSTALL_DIR_PATH } = require('../config/config')(process.env.NODE_ENV);
+const { INSTALL_DIR_PATH, DEFAULT_OUT_DIR_PATH } = require('../config/config')(
+  process.env.NODE_ENV,
+);
 
 const _promiseAllSerially = promises =>
   promises.reduce(
@@ -72,7 +74,7 @@ const setDefault = async templateName => {
       newTemplates[name] = data;
     });
     await dataControl.write(newTemplates);
-    console.log(`default was changed to '${templateName}'`);
+    console.log(`The default was changed to '${templateName}'`);
   } catch (error) {
     console.error(`ERROR: ${error}`);
   }
@@ -127,7 +129,7 @@ const install = async (templateName, isInit, isYarn) => {
           const fileContent = file[1];
           const path = `${INSTALL_DIR_PATH}/${fileName}`;
           await dataControl.write(fileContent, { path });
-          console.log(`new file created at: '${path}'`);
+          console.log(`New file created at: '${path}'`);
           return Promise.resolve(true);
         } catch (error) {
           throw error;
@@ -138,7 +140,7 @@ const install = async (templateName, isInit, isYarn) => {
     await _promiseAllSerially(depPromises);
     await _promiseAllSerially(devDepPromises);
     await _promiseAllParallelly(filePromises);
-    console.log(`dependencies, devDependencies and files were installed`);
+    console.log(`The dependencies, devDependencies and files were installed`);
   } catch (error) {
     console.error(`ERROR: ${error}`);
   }
@@ -161,7 +163,7 @@ const add = async (templateName, templateJsonString) => {
     if (errors.length > 0) throw new Error(errors.join(','));
 
     await dataControl.add(templateName, templateObj);
-    console.log(`new template was added: '${templateName}'`);
+    console.log(`New template was added: '${templateName}'`);
   } catch (error) {
     console.error(`ERROR: ${error}`);
   }
@@ -186,7 +188,7 @@ const remove = async templateName => {
       throw new Error(`Not such a templateName: '${templateName}'`);
 
     await dataControl.remove(templateName);
-    console.log(`the template was removed: '${templateName}'`);
+    console.log(`The template was removed: '${templateName}'`);
   } catch (error) {
     console.error(`ERROR: ${error}`);
   }
@@ -206,8 +208,34 @@ const rename = async (templateName, newTemplateName) => {
     await dataControl.remove(templateName);
     await dataControl.add(newTemplateName, newTemplateObj);
     console.log(
-      `the template '${templateName}' was renamed to: '${newTemplateName}'`,
+      `The template '${templateName}' was renamed to: '${newTemplateName}'`,
     );
+  } catch (error) {
+    console.error(`ERROR: ${error}`);
+  }
+};
+
+const exportFile = async (templateName, filename, dirPath) => {
+  try {
+    await _initialize();
+
+    const templates = await dataControl.read();
+
+    if (!Object.keys(templates).includes(templateName))
+      throw new Error(`Not such a templateName: '${templateName}'`);
+
+    const outFileName = filename || `${templateName}-template.json`;
+    const outDirPath = dirPath || DEFAULT_OUT_DIR_PATH;
+    const path = `${outDirPath}/${outFileName}`;
+    const outTemplateObj = templates[templateName];
+    delete outTemplateObj.default;
+
+    if (!(await dataControl.isDirExisted({ dirPath: outDirPath }))) {
+      throw new Error(`Not such a directory: '${outDirPath}'`);
+    }
+
+    await dataControl.write(outTemplateObj, { path });
+    console.log(`The template '${templateName}' was exported to: '${path}'`);
   } catch (error) {
     console.error(`ERROR: ${error}`);
   }
@@ -222,4 +250,5 @@ module.exports = {
   addFromFile,
   remove,
   rename,
+  exportFile,
 };

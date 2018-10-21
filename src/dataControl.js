@@ -4,7 +4,7 @@ const { DIR_PATH, TEMPLATE_FILE_PATH } = require('../config/config')(
   process.env.NODE_ENV,
 );
 
-const _isDirExisted = ({ dirPath = DIR_PATH } = { dirPath: DIR_PATH }) =>
+const isDirExisted = ({ dirPath = DIR_PATH } = { dirPath: DIR_PATH }) =>
   promisify(fs.stat)(dirPath)
     .then(() => true)
     .catch(() => false);
@@ -18,7 +18,7 @@ const isFileExisted = (
 
 const init = async () => {
   const initialData = {};
-  if (!(await _isDirExisted())) {
+  if (!(await isDirExisted())) {
     await promisify(fs.mkdir)(DIR_PATH, { recursive: true });
   }
   await promisify(fs.writeFile)(
@@ -67,6 +67,7 @@ const remove = async templateName => {
 };
 
 module.exports = {
+  isDirExisted,
   isFileExisted,
   init,
   read,

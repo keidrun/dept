@@ -7,56 +7,73 @@ const argv = yargs // eslint-disable-line
   .command({
     command: 'list',
     aliases: ['ls'],
-    describe: 'show all templates',
+    describe: 'Show all templates',
   })
   .command({
     command: 'show [templateName]',
     aliases: ['s'],
-    describe: 'show a template in details',
+    describe: 'Show a template in details',
   })
   .command({
     command: 'default [templateName]',
     aliases: ['df'],
-    describe: 'use a template by default',
+    describe: 'Use a template by default',
   })
   .command({
     command: 'install [templateName]',
     aliases: ['i'],
-    describe: 'install dependencies and config files from a template',
+    describe: 'Install dependencies and config files from a template',
   })
   .command({
     command: 'add [templateName]',
     aliases: ['a'],
-    describe: "add a template with '--data' or '--file' options",
+    describe: "Add a template with '--data' or '--file' options",
   })
   .command({
     command: 'remove [templateName]',
     aliases: ['r'],
-    describe: 'remove a template',
+    describe: 'Remove a template',
   })
   .command({
     command: 'rename [templateName] [newTemplateName]',
     aliases: ['mv'],
-    describe: 'rename a template name',
+    describe: 'Rename a template name',
+  })
+  .command({
+    command: 'export [templateName]',
+    aliases: ['e'],
+    describe: 'Export a JSON template file',
   })
   .option('yarn', {
-    describe: "use 'yarn' instead of 'npm'",
+    describe: "Use 'yarn' instead of 'npm'",
     alias: 'y',
     default: false,
   })
   .option('init', {
-    describe: "initialize 'package.json'",
+    describe: "Initialize 'package.json'",
     alias: 'i',
     default: false,
   })
   .option('data', {
     alias: 'd',
-    describe: "specify a JSON data string with 'add' command",
+    describe: "Specify a JSON data string with 'add' command",
     type: 'string',
   })
   .option('file', {
     alias: 'f',
-    describe: "specify a JSON template file with 'add' command",
+    describe: "Specify a JSON template file with 'add' command",
+    type: 'string',
+  })
+  .option('filename', {
+    alias: 'n',
+    describe:
+      "Specify a filename of a JSON template file with 'export' command",
+    type: 'string',
+  })
+  .option('out-dir', {
+    alias: 'o',
+    describe:
+      "Specify an output directory path to export a JSON template file with 'export' command",
     type: 'string',
   })
   .help()
@@ -85,6 +102,8 @@ if (command === 'list' || command === 'ls') {
   cmds.remove(argv.templateName);
 } else if (command === 'rename' || command === 'mv') {
   cmds.rename(argv.templateName, argv.newTemplateName);
+} else if (command === 'export' || command === 'e') {
+  cmds.exportFile(argv.templateName, argv.filename, argv['out-dir']);
 } else if (command) {
   console.log(`Not such a command: '${command}'`);
 } else {
