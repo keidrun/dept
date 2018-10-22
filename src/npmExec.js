@@ -1,86 +1,86 @@
-const { spawn } = require('child_process');
+import { spawn } from 'child_process'
 
 const version = (
   { isYarn = false, display = console.log } = {
     isYarn: false,
     display: console.log,
-  },
+  }
 ) =>
   new Promise((resolve, reject) => {
-    let child;
+    let child
     if (isYarn) {
-      child = spawn('yarn', ['--version']);
+      child = spawn('yarn', ['--version'])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'yarn --version'"));
+          reject(new Error("Faild to execute the command: 'yarn --version'"))
         }
-      });
+      })
     } else {
-      child = spawn('npm', ['--version']);
+      child = spawn('npm', ['--version'])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'npm --version'"));
+          reject(new Error("Faild to execute the command: 'npm --version'"))
         }
-      });
+      })
     }
-  });
+  })
 
 const init = (
   { isYarn = false, display = console.log } = {
     isYarn: false,
     display: console.log,
-  },
+  }
 ) =>
   new Promise((resolve, reject) => {
-    let child;
+    let child
     if (isYarn) {
-      child = spawn('yarn', ['init', '-y']);
+      child = spawn('yarn', ['init', '-y'])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'yarn init -y'"));
+          reject(new Error("Faild to execute the command: 'yarn init -y'"))
         }
-      });
+      })
     } else {
-      child = spawn('npm', ['init', '-y']);
+      child = spawn('npm', ['init', '-y'])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'npm init -y'"));
+          reject(new Error("Faild to execute the command: 'npm init -y'"))
         }
-      });
+      })
     }
-  });
+  })
 
 const add = (
   moduleName,
@@ -88,92 +88,94 @@ const add = (
     isDev: false,
     isYarn: false,
     display: console.log,
-  },
+  }
 ) =>
   new Promise((resolve, reject) => {
-    let child;
+    let child
     if (isYarn) {
       child = isDev
         ? spawn('yarn', ['add', '--dev', moduleName])
-        : spawn('yarn', ['add', moduleName]);
+        : spawn('yarn', ['add', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'yarn add'"));
+          reject(new Error("Faild to execute the command: 'yarn add'"))
         }
-      });
+      })
     } else {
       child = isDev
         ? spawn('npm', ['install', '--save-dev', moduleName])
-        : spawn('npm', ['install', '--save', moduleName]);
+        : spawn('npm', ['install', '--save', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'npm install'"));
+          reject(new Error("Faild to execute the command: 'npm install'"))
         }
-      });
+      })
     }
-  });
+  })
 
 const remove = (
   moduleName,
   { isYarn = false, display = console.log } = {
     isYarn: false,
     display: console.log,
-  },
+  }
 ) =>
   new Promise((resolve, reject) => {
-    let child;
+    let child
     if (isYarn) {
-      child = spawn('yarn', ['remove', moduleName]);
+      child = spawn('yarn', ['remove', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'yarn remove'"));
+          reject(new Error("Faild to execute the command: 'yarn remove'"))
         }
-      });
+      })
     } else {
-      child = spawn('npm', ['uninstall', moduleName]);
+      child = spawn('npm', ['uninstall', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.stderr.on('data', data => {
-        display(`${data}`);
-      });
+        display(`${data}`)
+      })
       child.on('close', code => {
         if (code === 0) {
-          resolve(true);
+          resolve(true)
         } else {
-          reject(new Error("Faild to execute the command: 'npm uninstall'"));
+          reject(new Error("Faild to execute the command: 'npm uninstall'"))
         }
-      });
+      })
     }
-  });
+  })
 
-module.exports = {
+const npmExec = {
   version,
   init,
   add,
   remove,
-};
+}
+
+export { npmExec as default }

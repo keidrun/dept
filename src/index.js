@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const yargs = require('yargs');
-const cmds = require('./cmds');
+import yargs from 'yargs'
+import cmds from './cmds'
 
 const argv = yargs // eslint-disable-line
   .usage('Usage: $0 <command> [options]')
@@ -78,36 +78,36 @@ const argv = yargs // eslint-disable-line
   })
   .help()
   .alias('help', 'h')
-  .alias('version', 'v').argv;
+  .alias('version', 'v').argv
 
-const command = argv._[0];
+const command = argv._[0]
 
 if (command === 'list' || command === 'ls') {
-  cmds.list();
+  cmds.list()
 } else if (command === 'show' || command === 's') {
-  cmds.show(argv.templateName);
+  cmds.show(argv.templateName)
 } else if (command === 'default' || command === 'd') {
-  cmds.setDefault(argv.templateName);
+  cmds.setDefault(argv.templateName)
 } else if (command === 'install' || command === 'i') {
-  cmds.install(argv.templateName, argv.init, argv.yarn);
+  cmds.install(argv.templateName, argv.init, argv.yarn)
 } else if (command === 'add' || command === 'a') {
   if (argv.data) {
-    cmds.add(argv.templateName, argv.data);
+    cmds.add(argv.templateName, argv.data)
   } else if (argv.file) {
-    cmds.addFromFile(argv.templateName, argv.file);
+    cmds.addFromFile(argv.templateName, argv.file)
   } else {
-    console.log("Specify --data or --file options with 'add'");
+    console.log("Specify --data or --file options with 'add'")
   }
 } else if (command === 'remove' || command === 'r') {
-  cmds.remove(argv.templateName);
+  cmds.remove(argv.templateName)
 } else if (command === 'rename' || command === 'mv') {
-  cmds.rename(argv.templateName, argv.newTemplateName);
+  cmds.rename(argv.templateName, argv.newTemplateName)
 } else if (command === 'export' || command === 'e') {
-  cmds.exportFile(argv.templateName, argv.filename, argv['out-dir']);
+  cmds.exportFile(argv.templateName, argv.filename, argv['out-dir'])
 } else if (command) {
-  console.log(`Not such a command: '${command}'`);
+  console.log(`Not such a command: '${command}'`)
 } else {
-  yargs.showHelp();
+  yargs.showHelp()
 }
 
-process.on('unhandledRejection', console.error.bind(console));
+process.on('unhandledRejection', console.error.bind(console))
