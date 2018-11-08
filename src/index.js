@@ -40,6 +40,11 @@ const argv = yargs // eslint-disable-line
     describe: 'Rename a template name',
   })
   .command({
+    command: 'update [templateName] [updateStatement]',
+    aliases: ['u'],
+    describe: 'Update a filed in a JSON template file',
+  })
+  .command({
     command: 'export [templateName]',
     aliases: ['e'],
     describe: 'Export a JSON template file',
@@ -102,6 +107,8 @@ if (command === 'list' || command === 'ls') {
   cmds.remove(argv.templateName)
 } else if (command === 'rename' || command === 'mv') {
   cmds.rename(argv.templateName, argv.newTemplateName)
+} else if (command === 'update' || command === 'u') {
+  cmds.updateFile(argv.templateName, argv.updateStatement)
 } else if (command === 'export' || command === 'e') {
   cmds.exportFile(argv.templateName, argv.filename, argv['out-dir'])
 } else if (command) {
@@ -110,4 +117,5 @@ if (command === 'list' || command === 'ls') {
   yargs.showHelp()
 }
 
-process.on('unhandledRejection', console.error.bind(console))
+if (process.env.NODE_ENV !== 'production')
+  process.on('unhandledRejection', console.error.bind(console))

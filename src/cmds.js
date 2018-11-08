@@ -215,6 +215,40 @@ const rename = async (templateName, newTemplateName) => {
   }
 }
 
+const updateFile = async (templateName, updateStatement) => {
+  try {
+    await _initialize()
+
+    const templates = await dataControl.read()
+
+    if (!Object.keys(templates).includes(templateName))
+      throw new Error(`Not such a templateName: '${templateName}'`)
+
+    const updateArray = updateStatement.split('.')
+    const updatableField = updateArray[0]
+    console.log('updatableField=', updatableField)
+    if (!['dependencies', 'devDependencies', 'files'].includes(updatableField))
+      throw new Error(`Cannot update the field: ${updatableField}`)
+
+    const updateField = updateArray
+      .slice(0, updateArray.length - 1)
+      .reduce((previous, current) => `${previous}.${current}`)
+
+    const updateObj = JSON.parse(updateArray[updateArray.length - 1])
+    const updatedTemplateObj = templates[templateName]
+    updatedTemplateObj[updateField] = updateObj
+
+    const { errors } = validateTemplate(updatedTemplateObj)
+    if (errors.length > 0) throw new Error(errors.join(','))
+
+    await dataControl.remove(templateName)
+    await dataControl.add(templateName, updatedTemplateObj)
+    console.log(`The template was updated: '${templateName}'`)
+  } catch (error) {
+    console.error(`ERROR: ${error}`)
+  }
+}
+
 const exportFile = async (templateName, filename, dirPath) => {
   try {
     await _initialize()
@@ -250,6 +284,7 @@ const cmds = {
   addFromFile,
   remove,
   rename,
+  updateFile,
   exportFile,
 }
 
