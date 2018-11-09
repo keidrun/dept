@@ -145,7 +145,7 @@ $ dept list
 * react-eslint-prettier
   express-typescript
   vue-nuxt
-3$ dept update express-typescript "dependencies={\"express\":\"^4.16.4\", \"mongoose\":\">=5.3.10\"}"
+$ dept update express-typescript "dependencies={\"express\":\"^4.16.4\", \"mongoose\":\">=5.3.10\"}"
 ```
 
 ### Export a template file as JSON format
