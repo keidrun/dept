@@ -224,19 +224,43 @@ const updateFile = async (templateName, updateStatement) => {
     if (!Object.keys(templates).includes(templateName))
       throw new Error(`Not such a templateName: '${templateName}'`)
 
-    const updateArray = updateStatement.split('.')
-    const updatableField = updateArray[0]
-    console.log('updatableField=', updatableField)
-    if (!['dependencies', 'devDependencies', 'files'].includes(updatableField))
-      throw new Error(`Cannot update the field: ${updatableField}`)
+    const updateField = updateStatement.split('=')[0]
+    const updateValueStr = updateStatement.slice(updateField.length + 1)
 
-    const updateField = updateArray
-      .slice(0, updateArray.length - 1)
-      .reduce((previous, current) => `${previous}.${current}`)
+    const rootField = updateField.split('.')[0]
+    if (!['dependencies', 'devDependencies', 'files'].includes(rootField))
+      throw new Error(`Cannot update the field: ${rootField}`)
 
-    const updateObj = JSON.parse(updateArray[updateArray.length - 1])
-    const updatedTemplateObj = templates[templateName]
-    updatedTemplateObj[updateField] = updateObj
+    const template = templates[templateName]
+    const currentValue = updateField
+      .split('.')
+      .slice(0, -1)
+      .reduce((obj, index) => obj[index], template)
+
+    const lastField = updateField.split('.').pop()
+    const updateValue =
+      typeof currentValue === 'object'
+        ? Object.assign(currentValue, {
+            [lastField]: JSON.parse(updateValueStr),
+          })
+        : updateValueStr
+
+    const update = updateField
+      .split('.')
+      .slice(0, -1)
+      .reverse()
+      .reduce((obj, prop) => {
+        const result = obj
+        if (Object.keys(obj).length === 0) {
+          result[prop] = updateValue
+          return result
+        }
+        const key = Object.keys(obj)[0]
+        result[prop] = Object.assign({}, obj)
+        delete result[key]
+        return result
+      }, {})
+    const updatedTemplateObj = Object.assign(template, update)
 
     const { errors } = validateTemplate(updatedTemplateObj)
     if (errors.length > 0) throw new Error(errors.join(','))

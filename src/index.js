@@ -42,7 +42,7 @@ const argv = yargs // eslint-disable-line
   .command({
     command: 'update [templateName] [updateStatement]',
     aliases: ['u'],
-    describe: 'Update a filed in a JSON template file',
+    describe: 'Update a filed in a template',
   })
   .command({
     command: 'export [templateName]',

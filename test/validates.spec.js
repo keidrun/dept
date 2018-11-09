@@ -141,5 +141,92 @@ describe('validates', () => {
       expect(result.errors).toHaveLength(1)
       expect(result.errors).toEqual(["'files' property must be an object"])
     })
+
+    test('should be valid if the module versions in dependencies and devDependencies are correct', () => {
+      const template = {
+        default: false,
+        dependencies: {
+          express: '4.16.4',
+          mongoose: '5.3',
+          helmet: '3',
+          cors: '*',
+          passport: '',
+          'passport-facebook': '^2.1.1',
+          'passport-google': '0.3.x',
+          'passport-strategy': '1.x.x',
+          'passport-github': 'x',
+          winston: '>=3.1.0',
+        },
+        devDependencies: {
+          eslint: '5.8.0',
+          nodemon: '1.18',
+          prettier: '1',
+          jest: '*',
+          'eslint-plugin-node': '',
+          'eslint-config-airbnb-base': '^13.1.0',
+          'eslint-config-prettier': '3.1.x',
+          'eslint-plugin-import': '2.x.x',
+          'eslint-plugin-jest': 'x',
+          'eslint-plugin-prettier': '>=3.0.0',
+        },
+        files: {},
+      }
+
+      const result = validateTemplate(template)
+
+      expect(result.errors).toHaveLength(0)
+    })
+
+    test('should be invalid if the module version in dependencies is wrong string', () => {
+      const template = {
+        default: false,
+        dependencies: {
+          express: '4.16.4',
+          mongoose: 'none',
+          helmet: '3',
+          cors: '*',
+        },
+        devDependencies: {
+          eslint: '5.8.0',
+          nodemon: '1.18',
+          prettier: '1',
+          jest: '*',
+        },
+        files: {},
+      }
+
+      const result = validateTemplate(template)
+
+      expect(result.errors).toHaveLength(1)
+      expect(result.errors).toEqual([
+        "module version in 'dependencies' must be a semantic version",
+      ])
+    })
+
+    test('should be invalid if the module version in devDependencies is wrong string', () => {
+      const template = {
+        default: false,
+        dependencies: {
+          express: '4.16.4',
+          mongoose: '1.18',
+          helmet: '3',
+          cors: '*',
+        },
+        devDependencies: {
+          eslint: '5.8.0',
+          nodemon: 'none',
+          prettier: '1',
+          jest: '*',
+        },
+        files: {},
+      }
+
+      const result = validateTemplate(template)
+
+      expect(result.errors).toHaveLength(1)
+      expect(result.errors).toEqual([
+        "module version in 'devDependencies' must be a semantic version",
+      ])
+    })
   })
 })

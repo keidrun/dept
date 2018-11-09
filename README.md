@@ -19,7 +19,7 @@ Commands:
   dept remove [templateName]   Remove a template                    [aliases: r]
   dept rename [templateName]   Rename a template name
   [newTemplateName]                                                [aliases: mv]
-  dept update [templateName]   Update a field in a JSON template file
+  dept update [templateName]   Update a field in a template
   [updateStatement]                                                 [aliases: u]
   dept export [templateName]   Export a JSON template file          [aliases: e]
 
@@ -137,15 +137,15 @@ $ dept install express-typescript --yarn
 
 ### Update a field in a template
 
-You can update a field in a JSON template file with `dept update`.
-Updatable fields are `dependencies`, `devDependencies` and `files`.
+You can update a field in a template with `dept update`.
+Either `dependencies`, `devDependencies` or `files` is updatable.
 
 ```bash
 $ dept list
 * react-eslint-prettier
   express-typescript
   vue-nuxt
-$ dept update express-typescript "dependencies.{\"express\":\"*\", \"mongoose\":\"*\"}"
+3$ dept update express-typescript "dependencies={\"express\":\"^4.16.4\", \"mongoose\":\">=5.3.10\"}"
 ```
 
 ### Export a template file as JSON format
