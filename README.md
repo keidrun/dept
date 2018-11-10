@@ -13,12 +13,14 @@ Commands:
   dept show [templateName]     Show a template in details           [aliases: s]
   dept default [templateName]  Use a template by default           [aliases: df]
   dept install [templateName]  Install dependencies and config files from a
-                                   template                         [aliases: i]
+                               template                             [aliases: i]
   dept add [templateName]      Add a template with '--data' or '--file'
-                                   options                          [aliases: a]
+                               options                              [aliases: a]
   dept remove [templateName]   Remove a template                    [aliases: r]
   dept rename [templateName]   Rename a template name
   [newTemplateName]                                                [aliases: mv]
+  dept view [templateName]     View a filed in a template
+  [viewStatement]                                                   [aliases: v]
   dept update [templateName]   Update a field in a template
   [updateStatement]                                                 [aliases: u]
   dept export [templateName]   Export a JSON template file          [aliases: e]
@@ -78,9 +80,9 @@ Real world's templates examples are [HERE](/examples/EXAMPLES.md).
 
 ## Use cases
 
-### Install your fixed template to your project
+### Install your fixed template to your existing project
 
-You can add your fixed template with `dept add` then install the template to your project with `dept install`.
+You can add your fixed template with `dept add` then install the template to your existing project with `dept install`.
 And you can set a default template with `dept default`.
 
 ```bash
@@ -133,6 +135,24 @@ $ dept list
   vue-nuxt
 $ cd your-app
 $ dept install express-typescript --yarn
+```
+
+### View a field in a template
+
+You can view a field in a template with `dept view`.
+
+```bash
+$ dept list
+* react-eslint-prettier
+  express-typescript
+  vue-nuxt
+$ dept view express-typescript "dependencies"
+{
+        "express": "^4.16.0",
+        "mongoose": "*"
+}
+$ dept view express-typescript "dependencies.express"
+"^4.16.0"
 ```
 
 ### Update a field in a template

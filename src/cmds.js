@@ -5,6 +5,8 @@ import config from '../config/config'
 
 const { INSTALL_DIR_PATH, DEFAULT_OUT_DIR_PATH } = config(process.env.NODE_ENV)
 
+const _prettyLog = value => console.log(JSON.stringify(value, null, '\t'))
+
 const _promiseAllSerially = promises =>
   promises.reduce(
     (prevPromise, currentPromise) => prevPromise.then(currentPromise),
@@ -47,7 +49,7 @@ const show = async templateName => {
     if (!Object.keys(templates).includes(templateName))
       throw new Error(`Not such a templateName: '${templateName}'`)
 
-    console.log(JSON.stringify(templates[templateName], null, '\t'))
+    _prettyLog(templates[templateName])
   } catch (error) {
     console.error(`ERROR: ${error}`)
   }
@@ -215,6 +217,26 @@ const rename = async (templateName, newTemplateName) => {
   }
 }
 
+const viewFile = async (templateName, viewStatement) => {
+  try {
+    await _initialize()
+
+    const templates = await dataControl.read()
+
+    if (!Object.keys(templates).includes(templateName))
+      throw new Error(`Not such a templateName: '${templateName}'`)
+
+    const template = templates[templateName]
+    const result = viewStatement
+      .split('.')
+      .reduce((obj, index) => obj[index], template)
+
+    _prettyLog(result || '')
+  } catch (error) {
+    console.error(`ERROR: ${error}`)
+  }
+}
+
 const updateFile = async (templateName, updateStatement) => {
   try {
     await _initialize()
@@ -308,6 +330,7 @@ const cmds = {
   addFromFile,
   remove,
   rename,
+  viewFile,
   updateFile,
   exportFile,
 }

@@ -40,6 +40,11 @@ const argv = yargs // eslint-disable-line
     describe: 'Rename a template name',
   })
   .command({
+    command: 'view [templateName] [viewStatement]',
+    aliases: ['v'],
+    describe: 'View a filed in a template',
+  })
+  .command({
     command: 'update [templateName] [updateStatement]',
     aliases: ['u'],
     describe: 'Update a filed in a template',
@@ -107,6 +112,8 @@ if (command === 'list' || command === 'ls') {
   cmds.remove(argv.templateName)
 } else if (command === 'rename' || command === 'mv') {
   cmds.rename(argv.templateName, argv.newTemplateName)
+} else if (command === 'view' || command === 'v') {
+  cmds.viewFile(argv.templateName, argv.viewStatement)
 } else if (command === 'update' || command === 'u') {
   cmds.updateFile(argv.templateName, argv.updateStatement)
 } else if (command === 'export' || command === 'e') {
