@@ -171,11 +171,9 @@ const remove = (
     }
   })
 
-const npmExec = {
+export default {
   version,
   init,
   add,
   remove,
 }
-
-export { npmExec as default }

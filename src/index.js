@@ -54,6 +54,16 @@ const argv = yargs // eslint-disable-line
     aliases: ['e'],
     describe: 'Export a JSON template file',
   })
+  .command({
+    command: 'environments',
+    aliases: ['env'],
+    describe: 'Show all NodeJS package managers',
+  })
+  .command({
+    command: 'useenv [environment]',
+    aliases: ['use'],
+    describe: 'Use a NodeJS package manager',
+  })
   .option('yarn', {
     describe: "Use 'yarn' instead of 'npm'",
     alias: 'y',
@@ -118,6 +128,10 @@ if (command === 'list' || command === 'ls') {
   cmds.updateFile(argv.templateName, argv.updateStatement)
 } else if (command === 'export' || command === 'e') {
   cmds.exportFile(argv.templateName, argv.filename, argv['out-dir'])
+} else if (command === 'environments' || command === 'env') {
+  cmds.listEnvs()
+} else if (command === 'useenv' || command === 'use') {
+  cmds.useEnv(argv.environment)
 } else if (command) {
   console.log(`Not such a command: '${command}'`)
 } else {

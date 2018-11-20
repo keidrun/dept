@@ -1,6 +1,6 @@
 import { promisify } from 'util'
 import fs from 'fs'
-import config from '../config/config'
+import config from '../../config/config'
 
 const { DIR_PATH, TEMPLATE_FILE_PATH } = config(process.env.NODE_ENV)
 
@@ -66,7 +66,7 @@ const remove = async templateName => {
   return Promise.resolve(templatesObj)
 }
 
-const dataControl = {
+export default {
   isDirExisted,
   isFileExisted,
   init,
@@ -75,5 +75,3 @@ const dataControl = {
   add,
   remove,
 }
-
-export { dataControl as default }

@@ -1,30 +1,18 @@
-import dataControl from './dataControl'
-import { validateTemplate } from './validates'
-import npmExec from './npmExec'
-import config from '../config/config'
+import config from '../../config/config'
+import { dataControl, npmExec } from '../utils'
+import { validateTemplate } from '../validates'
+import {
+  prettyLog,
+  initialize,
+  promiseAllParallelly,
+  promiseAllSerially,
+} from './common'
 
 const { INSTALL_DIR_PATH, DEFAULT_OUT_DIR_PATH } = config(process.env.NODE_ENV)
 
-const _prettyLog = value => console.log(JSON.stringify(value, null, '\t'))
-
-const _promiseAllSerially = promises =>
-  promises.reduce(
-    (prevPromise, currentPromise) => prevPromise.then(currentPromise),
-    Promise.resolve()
-  )
-
-const _promiseAllParallelly = promises =>
-  Promise.all(promises.map(promise => promise()))
-
-const _initialize = async () => {
-  if (!(await dataControl.isFileExisted())) {
-    await dataControl.init()
-  }
-}
-
 const list = async () => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -42,14 +30,14 @@ const list = async () => {
 
 const show = async templateName => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
     if (!Object.keys(templates).includes(templateName))
       throw new Error(`Not such a templateName: '${templateName}'`)
 
-    _prettyLog(templates[templateName])
+    prettyLog(templates[templateName])
   } catch (error) {
     console.error(`ERROR: ${error}`)
   }
@@ -57,7 +45,7 @@ const show = async templateName => {
 
 const setDefault = async templateName => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -84,7 +72,7 @@ const setDefault = async templateName => {
 
 const install = async (templateName, isInit, isYarn) => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -139,9 +127,9 @@ const install = async (templateName, isInit, isYarn) => {
       }
     )
 
-    await _promiseAllSerially(depPromises)
-    await _promiseAllSerially(devDepPromises)
-    await _promiseAllParallelly(filePromises)
+    await promiseAllSerially(depPromises)
+    await promiseAllSerially(devDepPromises)
+    await promiseAllParallelly(filePromises)
     console.log(`The dependencies, devDependencies and files were installed`)
   } catch (error) {
     console.error(`ERROR: ${error}`)
@@ -150,7 +138,7 @@ const install = async (templateName, isInit, isYarn) => {
 
 const add = async (templateName, templateJsonString) => {
   try {
-    await _initialize()
+    await initialize()
 
     const templateObj = JSON.parse(templateJsonString)
 
@@ -182,7 +170,7 @@ const addFromFile = async (templateName, templateFilePath) => {
 
 const remove = async templateName => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -198,7 +186,7 @@ const remove = async templateName => {
 
 const rename = async (templateName, newTemplateName) => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -219,7 +207,7 @@ const rename = async (templateName, newTemplateName) => {
 
 const viewFile = async (templateName, viewStatement) => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -231,7 +219,7 @@ const viewFile = async (templateName, viewStatement) => {
       .split('.')
       .reduce((obj, index) => obj[index], template)
 
-    _prettyLog(result || '')
+    prettyLog(result || '')
   } catch (error) {
     console.error(`ERROR: ${error}`)
   }
@@ -239,7 +227,7 @@ const viewFile = async (templateName, viewStatement) => {
 
 const updateFile = async (templateName, updateStatement) => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -297,7 +285,7 @@ const updateFile = async (templateName, updateStatement) => {
 
 const exportFile = async (templateName, filename, dirPath) => {
   try {
-    await _initialize()
+    await initialize()
 
     const templates = await dataControl.read()
 
@@ -321,7 +309,7 @@ const exportFile = async (templateName, filename, dirPath) => {
   }
 }
 
-const cmds = {
+export default {
   list,
   show,
   setDefault,
@@ -334,5 +322,3 @@ const cmds = {
   updateFile,
   exportFile,
 }
-
-export { cmds as default }

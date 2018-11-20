@@ -46,4 +46,4 @@ const validateTemplate = data => {
   }
 }
 
-export { validateTemplate } // eslint-disable-line
+export default validateTemplate
