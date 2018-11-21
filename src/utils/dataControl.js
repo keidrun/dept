@@ -16,17 +16,17 @@ const isFileExisted = (
     .then(() => true)
     .catch(() => false)
 
-const init = async () => {
-  const initialData = {}
+const init = async (
+  { path = TEMPLATE_FILE_PATH, initialValue = {} } = {
+    path: TEMPLATE_FILE_PATH,
+    initialValue: {},
+  }
+) => {
   if (!(await isDirExisted())) {
     await promisify(fs.mkdir)(DIR_PATH, { recursive: true })
   }
-  await promisify(fs.writeFile)(
-    TEMPLATE_FILE_PATH,
-    JSON.stringify(initialData),
-    'utf8'
-  )
-  return Promise.resolve(initialData)
+  await promisify(fs.writeFile)(path, JSON.stringify(initialValue), 'utf8')
+  return Promise.resolve(initialValue)
 }
 
 const read = ({ path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }) =>

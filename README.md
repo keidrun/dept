@@ -24,14 +24,15 @@ Commands:
   dept update [templateName]   Update a field in a template
   [updateStatement]                                                 [aliases: u]
   dept export [templateName]   Export a JSON template file          [aliases: e]
+  dept listenv                 Show all package managers          [aliases: env]
+  dept useenv [environment]    Use a package manager              [aliases: use]
 
 Options:
   --version, -v  Show version                                          [boolean]
-  --yarn, -y     Use 'yarn' instead of 'npm'                    [default: false]
   --init, -i     Initialize 'package.json'                      [default: false]
   --data, -d     Specify a JSON data string with 'add' command          [string]
   --file, -f     Specify a JSON template file with 'add' command        [string]
-  --filename, -n  Specify a filename of a JSON template file with 'export'
+  --filename, -n  Specify a filename of a JSON template file with 'export'
                   command                                               [string]
   --out-dir, -o   Specify an output directory path to export a JSON template
                   file with 'export' command                            [string]
@@ -112,16 +113,23 @@ $ dept install --init
 
 ### Install your fixed template in your new project with Yarn
 
-You can also use `yarn` instead of `npm` with `--yarn` option.
+You can also use `yarn` instead of `npm` after you change a package manager with `env` and `use`.
 
 ```bash
+$ dept env
+* npm
+  yarn
+$ dept use yarn
+$ dept env
+  npm
+* yarn
 $ dept list
 * react-eslint-prettier
   express-typescript
   vue-nuxt
 $ mkdir your-new-app
 $ cd your-new-app # NOT Yarn installed
-$ dept install --init --yarn
+$ dept install --init
 ```
 
 ### Specify a template from your fixed templates
@@ -134,7 +142,7 @@ $ dept list
   express-typescript
   vue-nuxt
 $ cd your-app
-$ dept install express-typescript --yarn
+$ dept install express-typescript
 ```
 
 ### View a field in a template

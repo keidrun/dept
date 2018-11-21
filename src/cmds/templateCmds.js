@@ -3,12 +3,21 @@ import { dataControl, npmExec } from '../utils'
 import { validateTemplate } from '../validates'
 import {
   prettyLog,
-  initialize,
   promiseAllParallelly,
   promiseAllSerially,
+  initConfigFile,
+  PACKAGE_MANAGERS,
 } from './common'
 
-const { INSTALL_DIR_PATH, DEFAULT_OUT_DIR_PATH } = config(process.env.NODE_ENV)
+const { INSTALL_DIR_PATH, DEFAULT_OUT_DIR_PATH, CONFIG_FILE_PATH } = config(
+  process.env.NODE_ENV
+)
+
+const initialize = async () => {
+  if (!(await dataControl.isFileExisted())) {
+    await dataControl.init()
+  }
+}
 
 const list = async () => {
   try {
@@ -70,11 +79,13 @@ const setDefault = async templateName => {
   }
 }
 
-const install = async (templateName, isInit, isYarn) => {
+const install = async (templateName, isInit) => {
   try {
     await initialize()
+    await initConfigFile()
 
     const templates = await dataControl.read()
+    const configFile = await dataControl.read({ path: CONFIG_FILE_PATH })
 
     let targetTemplateName = templateName
     if (targetTemplateName) {
@@ -92,6 +103,7 @@ const install = async (templateName, isInit, isYarn) => {
       if (!targetTemplateName) throw new Error(`default is not set`)
     }
 
+    const isYarn = configFile.environment === PACKAGE_MANAGERS.YARN
     if (isInit) {
       await npmExec.init({ isYarn })
     }

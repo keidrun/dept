@@ -35,10 +35,10 @@
         "prettier/prettier": [
           "error",
           {
-            "trailingComma": "all",
+            "trailingComma": "es5",
             "singleQuote": true,
             "semi": true,
-            "printWidth": 80
+            "printWidth": 120
           }
         ],
         "node/exports-style": [

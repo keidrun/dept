@@ -55,19 +55,14 @@ const argv = yargs // eslint-disable-line
     describe: 'Export a JSON template file',
   })
   .command({
-    command: 'environments',
+    command: 'listenv',
     aliases: ['env'],
-    describe: 'Show all NodeJS package managers',
+    describe: 'Show all package managers',
   })
   .command({
     command: 'useenv [environment]',
     aliases: ['use'],
-    describe: 'Use a NodeJS package manager',
-  })
-  .option('yarn', {
-    describe: "Use 'yarn' instead of 'npm'",
-    alias: 'y',
-    default: false,
+    describe: 'Use a package manager',
   })
   .option('init', {
     describe: "Initialize 'package.json'",
@@ -109,7 +104,7 @@ if (command === 'list' || command === 'ls') {
 } else if (command === 'default' || command === 'd') {
   cmds.setDefault(argv.templateName)
 } else if (command === 'install' || command === 'i') {
-  cmds.install(argv.templateName, argv.init, argv.yarn)
+  cmds.install(argv.templateName, argv.init)
 } else if (command === 'add' || command === 'a') {
   if (argv.data) {
     cmds.add(argv.templateName, argv.data)
@@ -128,7 +123,7 @@ if (command === 'list' || command === 'ls') {
   cmds.updateFile(argv.templateName, argv.updateStatement)
 } else if (command === 'export' || command === 'e') {
   cmds.exportFile(argv.templateName, argv.filename, argv['out-dir'])
-} else if (command === 'environments' || command === 'env') {
+} else if (command === 'listenv' || command === 'env') {
   cmds.listEnvs()
 } else if (command === 'useenv' || command === 'use') {
   cmds.useEnv(argv.environment)
