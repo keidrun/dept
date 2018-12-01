@@ -29,7 +29,6 @@ Commands:
 
 Options:
   --version, -v  Show version                                          [boolean]
-  --init, -i     Initialize 'package.json'                      [default: false]
   --data, -d     Specify a JSON data string with 'add' command          [string]
   --file, -f     Specify a JSON template file with 'add' command        [string]
   --filename, -n  Specify a filename of a JSON template file with 'export'
@@ -99,7 +98,7 @@ $ dept install
 
 ### Install your fixed template in your new project
 
-You can initialize your new project with `--init` option.
+It initializes your new project automatically if `package.json` doesn't exist.
 
 ```bash
 $ dept list
@@ -108,7 +107,7 @@ $ dept list
   vue-nuxt
 $ mkdir your-new-app
 $ cd your-new-app # NOT NPM installed
-$ dept install --init
+$ dept install
 ```
 
 ### Install your fixed template in your new project with Yarn
@@ -129,7 +128,7 @@ $ dept list
   vue-nuxt
 $ mkdir your-new-app
 $ cd your-new-app # NOT Yarn installed
-$ dept install --init
+$ dept install
 ```
 
 ### Specify a template from your fixed templates

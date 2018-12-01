@@ -64,11 +64,6 @@ const argv = yargs // eslint-disable-line
     aliases: ['use'],
     describe: 'Use a package manager',
   })
-  .option('init', {
-    describe: "Initialize 'package.json'",
-    alias: 'i',
-    default: false,
-  })
   .option('data', {
     alias: 'd',
     describe: "Specify a JSON data string with 'add' command",
@@ -104,7 +99,7 @@ if (command === 'list' || command === 'ls') {
 } else if (command === 'default' || command === 'd') {
   cmds.setDefault(argv.templateName)
 } else if (command === 'install' || command === 'i') {
-  cmds.install(argv.templateName, argv.init)
+  cmds.install(argv.templateName)
 } else if (command === 'add' || command === 'a') {
   if (argv.data) {
     cmds.add(argv.templateName, argv.data)

@@ -9,9 +9,12 @@ import {
   PACKAGE_MANAGERS,
 } from './common'
 
-const { INSTALL_DIR_PATH, DEFAULT_OUT_DIR_PATH, CONFIG_FILE_PATH } = config(
-  process.env.NODE_ENV
-)
+const {
+  INSTALL_DIR_PATH,
+  DEFAULT_OUT_DIR_PATH,
+  CONFIG_FILE_PATH,
+  PACKAGE_JSON_FILE_PATH,
+} = config(process.env.NODE_ENV)
 
 const initialize = async () => {
   if (!(await dataControl.isFileExisted())) {
@@ -79,7 +82,7 @@ const setDefault = async templateName => {
   }
 }
 
-const install = async (templateName, isInit) => {
+const install = async templateName => {
   try {
     await initialize()
     await initConfigFile()
@@ -104,7 +107,7 @@ const install = async (templateName, isInit) => {
     }
 
     const isYarn = configFile.environment === PACKAGE_MANAGERS.YARN
-    if (isInit) {
+    if (await dataControl.isFileExisted({ path: PACKAGE_JSON_FILE_PATH })) {
       await npmExec.init({ isYarn })
     }
 
