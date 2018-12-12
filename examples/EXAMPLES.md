@@ -6,11 +6,11 @@ Example templates files are [HERE](/examples/templates).
 
 ```bash
 $ dept add nodejs-eslint-prettier -f ./nodejs-eslint-prettier-template.json
-$ dept add react-eslint-eslint-prettier -f ./nodejs-eslint-prettier-template.json
+$ dept add create-react-app-eslint-prettier -f ./create-react-app-eslint-prettier-template.json
 $ dept add reactnative-eslint-prettier -f ./reactnative-eslint-prettier-template.json
 $ dept list
 * nodejs-eslint-prettier
-  react-eslint-prettier
+  create-react-app-eslint-prettier
   reactnative-eslint-prettier
 ```
 
@@ -27,7 +27,7 @@ dept install nodejs-eslint-prettier --yarn --init
 ```bash
 create-react-app your-react-app
 cd your-react-app
-dept install react-eslint-prettier --yarn
+dept install create-react-app-eslint-prettier --yarn
 ```
 
 ## Install Eslint and Prettier via a template for ReactNative app
