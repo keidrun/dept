@@ -93,9 +93,7 @@ const add = (
   new Promise((resolve, reject) => {
     let child
     if (isYarn) {
-      child = isDev
-        ? spawn('yarn', ['add', '--dev', moduleName])
-        : spawn('yarn', ['add', moduleName])
+      child = isDev ? spawn('yarn', ['add', '--dev', moduleName]) : spawn('yarn', ['add', moduleName])
       child.stdout.on('data', data => {
         display(`${data}`)
       })

@@ -76,14 +76,12 @@ const argv = yargs // eslint-disable-line
   })
   .option('filename', {
     alias: 'n',
-    describe:
-      "Specify a filename of a JSON template file with 'export' command",
+    describe: "Specify a filename of a JSON template file with 'export' command",
     type: 'string',
   })
   .option('out-dir', {
     alias: 'o',
-    describe:
-      "Specify an output directory path to export a JSON template file with 'export' command",
+    describe: "Specify an output directory path to export a JSON template file with 'export' command",
     type: 'string',
   })
   .help()
@@ -128,5 +126,4 @@ if (command === 'list' || command === 'ls') {
   yargs.showHelp()
 }
 
-if (process.env.NODE_ENV !== 'production')
-  process.on('unhandledRejection', console.error.bind(console))
+if (process.env.NODE_ENV !== 'production') process.on('unhandledRejection', console.error.bind(console))

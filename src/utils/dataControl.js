@@ -1,5 +1,6 @@
 import { promisify } from 'util'
 import fs from 'fs'
+import yaml from 'js-yaml'
 import config from '../../config/config'
 
 const { DIR_PATH, TEMPLATE_FILE_PATH } = config(process.env.NODE_ENV)
@@ -9,9 +10,7 @@ const isDirExisted = ({ dirPath = DIR_PATH } = { dirPath: DIR_PATH }) =>
     .then(() => true)
     .catch(() => false)
 
-const isFileExisted = (
-  { path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }
-) =>
+const isFileExisted = ({ path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }) =>
   promisify(fs.stat)(path)
     .then(() => true)
     .catch(() => false)
@@ -34,10 +33,13 @@ const read = ({ path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }) =>
 
 const write = async (
   contentObj,
-  { path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }
+  { path = TEMPLATE_FILE_PATH, fileExtension = 'json' } = { path: TEMPLATE_FILE_PATH, fileExtension: 'json' }
 ) => {
-  if (typeof contentObj === 'string') {
+  if (fileExtension === 'txt' || typeof contentObj === 'string') {
     await promisify(fs.writeFile)(path, contentObj, 'utf8')
+  } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
+    const contentYaml = yaml.safeDump(contentObj)
+    await promisify(fs.writeFile)(path, contentYaml, 'utf8')
   } else {
     await promisify(fs.writeFile)(path, JSON.stringify(contentObj), 'utf8')
   }
@@ -47,22 +49,14 @@ const write = async (
 const add = async (templateName, templateObj) => {
   const templatesObj = await read()
   templatesObj[templateName] = templateObj
-  await promisify(fs.writeFile)(
-    TEMPLATE_FILE_PATH,
-    JSON.stringify(templatesObj),
-    'utf8'
-  )
+  await promisify(fs.writeFile)(TEMPLATE_FILE_PATH, JSON.stringify(templatesObj), 'utf8')
   return Promise.resolve(templatesObj)
 }
 
 const remove = async templateName => {
   const templatesObj = await read()
   delete templatesObj[templateName]
-  await promisify(fs.writeFile)(
-    TEMPLATE_FILE_PATH,
-    JSON.stringify(templatesObj),
-    'utf8'
-  )
+  await promisify(fs.writeFile)(TEMPLATE_FILE_PATH, JSON.stringify(templatesObj), 'utf8')
   return Promise.resolve(templatesObj)
 }
 

@@ -1,20 +1,11 @@
 import config from '../../config/config'
 import { dataControl, npmExec } from '../utils'
 import { validateTemplate } from '../validates'
-import {
-  prettyLog,
-  promiseAllParallelly,
-  promiseAllSerially,
-  initConfigFile,
-  PACKAGE_MANAGERS,
-} from './common'
+import { prettyLog, promiseAllParallelly, promiseAllSerially, initConfigFile, PACKAGE_MANAGERS } from './common'
 
-const {
-  INSTALL_DIR_PATH,
-  DEFAULT_OUT_DIR_PATH,
-  CONFIG_FILE_PATH,
-  PACKAGE_JSON_FILE_PATH,
-} = config(process.env.NODE_ENV)
+const { INSTALL_DIR_PATH, DEFAULT_OUT_DIR_PATH, CONFIG_FILE_PATH, PACKAGE_JSON_FILE_PATH } = config(
+  process.env.NODE_ENV
+)
 
 const initialize = async () => {
   if (!(await dataControl.isFileExisted())) {
@@ -46,8 +37,7 @@ const show = async templateName => {
 
     const templates = await dataControl.read()
 
-    if (!Object.keys(templates).includes(templateName))
-      throw new Error(`Not such a templateName: '${templateName}'`)
+    if (!Object.keys(templates).includes(templateName)) throw new Error(`Not such a templateName: '${templateName}'`)
 
     prettyLog(templates[templateName])
   } catch (error) {
@@ -61,8 +51,7 @@ const setDefault = async templateName => {
 
     const templates = await dataControl.read()
 
-    if (!Object.keys(templates).includes(templateName))
-      throw new Error(`Not such a templateName: '${templateName}'`)
+    if (!Object.keys(templates).includes(templateName)) throw new Error(`Not such a templateName: '${templateName}'`)
 
     const newTemplates = {}
     Object.entries(templates).forEach(arr => {
@@ -113,34 +102,25 @@ const install = async templateName => {
 
     const targetTemplate = templates[targetTemplateName]
 
-    const depModuleNames = Object.entries(
-      targetTemplate.dependencies || {}
-    ).map(dep => `${dep[0]}@${dep[1]}`)
-    const depPromises = depModuleNames.map(moduleName => () =>
-      npmExec.add(moduleName, { isYarn })
-    )
+    const depModuleNames = Object.entries(targetTemplate.dependencies || {}).map(dep => `${dep[0]}@${dep[1]}`)
+    const depPromises = depModuleNames.map(moduleName => () => npmExec.add(moduleName, { isYarn }))
 
-    const devDepModuleNames = Object.entries(
-      targetTemplate.devDependencies || {}
-    ).map(dep => `${dep[0]}@${dep[1]}`)
-    const devDepPromises = devDepModuleNames.map(moduleName => () =>
-      npmExec.add(moduleName, { isDev: true, isYarn })
-    )
+    const devDepModuleNames = Object.entries(targetTemplate.devDependencies || {}).map(dep => `${dep[0]}@${dep[1]}`)
+    const devDepPromises = devDepModuleNames.map(moduleName => () => npmExec.add(moduleName, { isDev: true, isYarn }))
 
-    const filePromises = Object.entries(targetTemplate.files || {}).map(
-      file => async () => {
-        try {
-          const fileName = file[0]
-          const fileContent = file[1]
-          const path = `${INSTALL_DIR_PATH}/${fileName}`
-          await dataControl.write(fileContent, { path })
-          console.log(`New file created at: '${path}'`)
-          return Promise.resolve(true)
-        } catch (error) {
-          throw error
-        }
+    const filePromises = Object.entries(targetTemplate.files || {}).map(file => async () => {
+      try {
+        const fileName = file[0]
+        const fileContent = file[1]
+        const fileExtension = fileName.split('.').pop()
+        const path = `${INSTALL_DIR_PATH}/${fileName}`
+        await dataControl.write(fileContent, { path, fileExtension })
+        console.log(`New file created at: '${path}'`)
+        return Promise.resolve(true)
+      } catch (error) {
+        throw error
       }
-    )
+    })
 
     await promiseAllSerially(depPromises)
     await promiseAllSerially(devDepPromises)
@@ -189,8 +169,7 @@ const remove = async templateName => {
 
     const templates = await dataControl.read()
 
-    if (!Object.keys(templates).includes(templateName))
-      throw new Error(`Not such a templateName: '${templateName}'`)
+    if (!Object.keys(templates).includes(templateName)) throw new Error(`Not such a templateName: '${templateName}'`)
 
     await dataControl.remove(templateName)
     console.log(`The template was removed: '${templateName}'`)
@@ -205,16 +184,13 @@ const rename = async (templateName, newTemplateName) => {
 
     const templates = await dataControl.read()
 
-    if (!Object.keys(templates).includes(templateName))
-      throw new Error(`Not such a templateName: '${templateName}'`)
+    if (!Object.keys(templates).includes(templateName)) throw new Error(`Not such a templateName: '${templateName}'`)
 
     const newTemplateObj = templates[templateName]
 
     await dataControl.remove(templateName)
     await dataControl.add(newTemplateName, newTemplateObj)
-    console.log(
-      `The template '${templateName}' was renamed to: '${newTemplateName}'`
-    )
+    console.log(`The template '${templateName}' was renamed to: '${newTemplateName}'`)
   } catch (error) {
     console.error(`ERROR: ${error}`)
   }
@@ -226,13 +202,10 @@ const viewFile = async (templateName, viewStatement) => {
 
     const templates = await dataControl.read()
 
-    if (!Object.keys(templates).includes(templateName))
-      throw new Error(`Not such a templateName: '${templateName}'`)
+    if (!Object.keys(templates).includes(templateName)) throw new Error(`Not such a templateName: '${templateName}'`)
 
     const template = templates[templateName]
-    const result = viewStatement
-      .split('.')
-      .reduce((obj, index) => obj[index], template)
+    const result = viewStatement.split('.').reduce((obj, index) => obj[index], template)
 
     prettyLog(result || '')
   } catch (error) {
@@ -246,8 +219,7 @@ const updateFile = async (templateName, updateStatement) => {
 
     const templates = await dataControl.read()
 
-    if (!Object.keys(templates).includes(templateName))
-      throw new Error(`Not such a templateName: '${templateName}'`)
+    if (!Object.keys(templates).includes(templateName)) throw new Error(`Not such a templateName: '${templateName}'`)
 
     const updateField = updateStatement.split('=')[0]
     const updateValueStr = updateStatement.slice(updateField.length + 1)
@@ -304,8 +276,7 @@ const exportFile = async (templateName, filename, dirPath) => {
 
     const templates = await dataControl.read()
 
-    if (!Object.keys(templates).includes(templateName))
-      throw new Error(`Not such a templateName: '${templateName}'`)
+    if (!Object.keys(templates).includes(templateName)) throw new Error(`Not such a templateName: '${templateName}'`)
 
     const outFileName = filename || `${templateName}-template.json`
     const outDirPath = dirPath || DEFAULT_OUT_DIR_PATH

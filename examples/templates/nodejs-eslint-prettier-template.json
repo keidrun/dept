@@ -94,6 +94,11 @@
         "no-underscore-dangle": "off"
       }
     },
-    ".travis.yml": "language: node_js\nnode_js:\n  - \"10\""
+    ".travis.yml": {
+      "language": "node_js",
+      "node_js": [
+        "10"
+      ]
+    }
   }
 }

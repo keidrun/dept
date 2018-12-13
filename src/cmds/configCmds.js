@@ -27,9 +27,7 @@ const useEnv = async environment => {
     await initConfigFile()
 
     if (!Object.values(PACKAGE_MANAGERS).includes(environment)) {
-      throw new Error(
-        `environment must be either 'npm' or 'yarn': ${environment}`
-      )
+      throw new Error(`environment must be either 'npm' or 'yarn': ${environment}`)
     }
 
     const configFile = await dataControl.read({ path: CONFIG_FILE_PATH })

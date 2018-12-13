@@ -42,9 +42,9 @@ Options:
 
 You can define the following properties.
 
-- dependencies ... NPM package `dependencies`
-- devDependencies ... NPM package `devDependencies`
-- files ... Config files like `.eslintrc` and so on
+- `dependencies`: NPM package `dependencies`
+- `devDependencies`: NPM package `devDependencies`
+- `files`: Config files like `.eslintrc`, `.travis.yml` and so on. If file extension is 'yaml' or 'yml', it is exported as a YAML file.
 
 For example:
 
@@ -71,7 +71,14 @@ For example:
       },
       "any-prop-3": "anything"
     },
-    "file-name-B.txt": "Hello World"
+    "file-name-B.txt": "Hello World",
+    "file-name-C.yml": {
+      "any-value": "any-value",
+      "any-list": [
+        "any-element-1",
+        "any-element-2"
+      ]
+    }
   }
 }
 ```
