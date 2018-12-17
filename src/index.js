@@ -64,24 +64,35 @@ const argv = yargs // eslint-disable-line
     aliases: ['use'],
     describe: 'Use a package manager',
   })
+  .command({
+    command: 'json2yaml',
+    aliases: ['jy'],
+    describe: "Convert a JSON format to a YAML format with '--data' or '--file' options",
+  })
+  .command({
+    command: 'yaml2json',
+    aliases: ['yj'],
+    describe: "Convert a YAML format to a JSON format with '--data' or '--file' options",
+  })
   .option('data', {
     alias: 'd',
-    describe: "Specify a JSON data string with 'add' command",
+    describe: "Specify a JSON or YAML data string with 'add', 'json2yaml' or 'yaml2json'",
     type: 'string',
   })
   .option('file', {
     alias: 'f',
-    describe: "Specify a JSON template file with 'add' command",
+    describe: "Specify a JSON or YAML file with 'add', 'json2yaml' or 'yaml2json'",
     type: 'string',
   })
   .option('filename', {
     alias: 'n',
-    describe: "Specify a filename of a JSON template file with 'export' command",
+    describe: "Specify a filename of a JSON template file with 'export', 'json2yaml' or 'yaml2json'",
     type: 'string',
   })
   .option('out-dir', {
     alias: 'o',
-    describe: "Specify an output directory path to export a JSON template file with 'export' command",
+    describe:
+      "Specify an output directory path to export a JSON template file with 'export', 'json2yaml' or 'yaml2json'",
     type: 'string',
   })
   .help()
@@ -120,6 +131,22 @@ if (command === 'list' || command === 'ls') {
   cmds.listEnvs()
 } else if (command === 'useenv' || command === 'use') {
   cmds.useEnv(argv.environment)
+} else if (command === 'json2yaml' || command === 'jy') {
+  if (argv.data) {
+    cmds.jsonToYaml(argv.data)
+  } else if (argv.file) {
+    cmds.jsonToYamlFromFile(argv.file, argv['out-dir'])
+  } else {
+    console.log("Specify --data or --file options with 'json2yaml'")
+  }
+} else if (command === 'yaml2json' || command === 'yj') {
+  if (argv.data) {
+    cmds.yamlToJson(argv.data)
+  } else if (argv.file) {
+    cmds.yamlToJsonFromFile(argv.file, argv['out-dir'])
+  } else {
+    console.log("Specify --data or --file options with 'yaml2json'")
+  }
 } else if (command) {
   console.log(`Not such a command: '${command}'`)
 } else {

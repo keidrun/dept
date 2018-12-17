@@ -1,20 +1,15 @@
 import { spawn } from 'child_process'
 
-const version = (
-  { isYarn = false, display = console.log } = {
-    isYarn: false,
-    display: console.log,
-  }
-) =>
+const version = ({ isYarn = false } = { isYarn: false }) =>
   new Promise((resolve, reject) => {
     let child
     if (isYarn) {
       child = spawn('yarn', ['--version'])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
@@ -26,10 +21,10 @@ const version = (
     } else {
       child = spawn('npm', ['--version'])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
@@ -41,21 +36,16 @@ const version = (
     }
   })
 
-const init = (
-  { isYarn = false, display = console.log } = {
-    isYarn: false,
-    display: console.log,
-  }
-) =>
+const init = ({ isYarn = false } = { isYarn: false }) =>
   new Promise((resolve, reject) => {
     let child
     if (isYarn) {
       child = spawn('yarn', ['init', '-y'])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
@@ -67,10 +57,10 @@ const init = (
     } else {
       child = spawn('npm', ['init', '-y'])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
@@ -82,23 +72,16 @@ const init = (
     }
   })
 
-const add = (
-  moduleName,
-  { isDev = false, isYarn = false, display = console.log } = {
-    isDev: false,
-    isYarn: false,
-    display: console.log,
-  }
-) =>
+const add = (moduleName, { isDev = false, isYarn = false } = { isDev: false, isYarn: false }) =>
   new Promise((resolve, reject) => {
     let child
     if (isYarn) {
       child = isDev ? spawn('yarn', ['add', '--dev', moduleName]) : spawn('yarn', ['add', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
@@ -112,10 +95,10 @@ const add = (
         ? spawn('npm', ['install', '--save-dev', moduleName])
         : spawn('npm', ['install', '--save', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
@@ -127,22 +110,16 @@ const add = (
     }
   })
 
-const remove = (
-  moduleName,
-  { isYarn = false, display = console.log } = {
-    isYarn: false,
-    display: console.log,
-  }
-) =>
+const remove = (moduleName, { isYarn = false } = { isYarn: false }) =>
   new Promise((resolve, reject) => {
     let child
     if (isYarn) {
       child = spawn('yarn', ['remove', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
@@ -154,10 +131,10 @@ const remove = (
     } else {
       child = spawn('npm', ['uninstall', moduleName])
       child.stdout.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.stderr.on('data', data => {
-        display(`${data}`)
+        console.log(`${data}`)
       })
       child.on('close', code => {
         if (code === 0) {
