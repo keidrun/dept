@@ -26,19 +26,27 @@ Commands:
   dept export [templateName]   Export a JSON template file          [aliases: e]
   dept listenv                 Show all package managers          [aliases: env]
   dept useenv [environment]    Use a package manager              [aliases: use]
+  dept json2yaml               Convert a JSON format to a YAML
+                               format with '--data' or '--file'
+                               options                             [aliases: jy]
+  dept yaml2json               Convert a YAML format to a JSON
+                               format with '--data' or '--file'
+                               options                             [aliases: yj]
 
 Options:
   --version, -v  Show version                                          [boolean]
-  --data, -d     Specify a JSON data string with 'add' command          [string]
-  --file, -f     Specify a JSON template file with 'add' command        [string]
-  --filename, -n  Specify a filename of a JSON template file with 'export'
-                  command                                               [string]
+  --data, -d     Specify a JSON or YAML data string with 'add',
+                 'json2yaml' or 'yaml2json'                             [string]
+  --file, -f     Specify a JSON or YAML file with 'add', 'json2yaml'
+                 or 'yaml2json'                                         [string]
+  --filename, -n  Specify a filename of a JSON template file with
+                  'export', 'json2yaml' or 'yaml2json'                  [string]
   --out-dir, -o   Specify an output directory path to export a JSON template
-                  file with 'export' command                            [string]
+                  file with 'export', 'json2yaml' or 'yaml2json'        [string]
   --help, -h     Show help                                             [boolean]
 ```
 
-## Template JSON format
+## Template JSON/YAML format
 
 You can define the following properties.
 
@@ -46,28 +54,28 @@ You can define the following properties.
 - `devDependencies`: NPM package `devDependencies`
 - `files`: Config files like `.eslintrc`, `.travis.yml` and so on. If file extension is 'yaml' or 'yml', it is exported as a YAML file.
 
-For example:
+JSON example:
 
 ```json
 {
   "dependencies": {
-    "module-name-A": "1.0.0",
+    "module-name-A": "1.0.0"
   },
   "devDependencies": {
     "module-name-B": "*",
-    "module-name-C": "^2.1.1",
+    "module-name-C": "^2.1.1"
   },
   "files": {
     "file-name-A.json": {
       "any-prop-1": [
-          "any-element-1",
-          "any-element-2",
-          "any-element-3"
+        "any-element-1",
+        "any-element-2",
+        "any-element-3"
       ],
       "any-prop-2": {
-          "any-value-1": 123,
-          "any-value-2": true,
-          "any-value-3": "something"
+        "any-value-1": 123,
+        "any-value-2": true,
+        "any-value-3": "something"
       },
       "any-prop-3": "anything"
     },
@@ -84,6 +92,33 @@ For example:
 ```
 
 Real world's templates examples are [HERE](/examples/EXAMPLES.md).
+
+YAML example:
+
+```yaml
+dependencies:
+  module-name-A: 1.0.0
+devDependencies:
+  module-name-B: '*'
+  module-name-C: ^2.1.1
+files:
+  file-name-A.json:
+    any-prop-1:
+      - any-element-1
+      - any-element-2
+      - any-element-3
+    any-prop-2:
+      any-value-1: 123
+      any-value-2: true
+      any-value-3: something
+    any-prop-3: anything
+  file-name-B.txt: Hello World
+  file-name-C.yml:
+    any-value: any-value
+    any-list:
+      - any-element-1
+      - any-element-2
+```
 
 ## Use cases
 
@@ -192,6 +227,28 @@ $ dept list
   express-typescript
   vue-nuxt
 $ dept export react-eslint-prettier --filename fixed-react-eslint-prettier.json --out-dir ./fixed-templates-dir
+```
+
+## Helper commands
+
+### Convert a JSON file to a YAML file
+
+You  can convet a JSON file to a YAML file with `dept json2yaml`.
+
+```bash
+$ dept json2yaml --file ./data.json --filename data.yml --out-dir ./converted-dir
+$ ls ./converted-dir/
+data.yml
+```
+
+### Convert a YAML file to a JSON file
+
+You  can convet a YAML file to a JSON file with `dept yaml2json`.
+
+```bash
+$ dept yaml2json --file ./data.yml --filename data.json --out-dir ./converted-dir
+$ ls ./converted-dir/
+data.json
 ```
 
 [npm-url]: https://npmjs.org/package/dept

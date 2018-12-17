@@ -28,8 +28,20 @@ const init = async (
   return Promise.resolve(initialValue)
 }
 
-const read = ({ path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }) =>
-  promisify(fs.readFile)(path, 'utf8').then(data => JSON.parse(data))
+const read = async ({ path = TEMPLATE_FILE_PATH } = { path: TEMPLATE_FILE_PATH }) => {
+  const fileExtension = path
+    .split('/')
+    .pop()
+    .split('.')
+    .pop()
+
+  const content = await promisify(fs.readFile)(path, 'utf8')
+
+  if (fileExtension === 'yaml' || fileExtension === 'yml') {
+    return yaml.safeLoad(content)
+  }
+  return JSON.parse(content)
+}
 
 const write = async (
   contentObj,

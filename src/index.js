@@ -135,7 +135,7 @@ if (command === 'list' || command === 'ls') {
   if (argv.data) {
     cmds.jsonToYaml(argv.data)
   } else if (argv.file) {
-    cmds.jsonToYamlFromFile(argv.file, argv['out-dir'])
+    cmds.jsonToYamlFromFile(argv.file, argv.filename, argv['out-dir'])
   } else {
     console.log("Specify --data or --file options with 'json2yaml'")
   }
@@ -143,7 +143,7 @@ if (command === 'list' || command === 'ls') {
   if (argv.data) {
     cmds.yamlToJson(argv.data)
   } else if (argv.file) {
-    cmds.yamlToJsonFromFile(argv.file, argv['out-dir'])
+    cmds.yamlToJsonFromFile(argv.file, argv.filename, argv['out-dir'])
   } else {
     console.log("Specify --data or --file options with 'yaml2json'")
   }
