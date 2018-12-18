@@ -39,9 +39,9 @@ Options:
                  'json2yaml' or 'yaml2json'                             [string]
   --file, -f     Specify a JSON or YAML file with 'add', 'json2yaml'
                  or 'yaml2json'                                         [string]
-  --filename, -n  Specify a filename of a JSON template file with
-                  'export', 'json2yaml' or 'yaml2json'                  [string]
-  --out-dir, -o   Specify an output directory path to export a JSON template
+  --filename, -n  Specify a filename of a JSON or YAML file with 'export',
+                  'json2yaml' or 'yaml2json'                            [string]
+  --out-dir, -o   Specify an output directory path to export a JSON or YAML
                   file with 'export', 'json2yaml' or 'yaml2json'        [string]
   --help, -h     Show help                                             [boolean]
 ```
@@ -91,8 +91,6 @@ JSON example:
 }
 ```
 
-Real world's templates examples are [HERE](/examples/EXAMPLES.md).
-
 YAML example:
 
 ```yaml
@@ -119,6 +117,8 @@ files:
       - any-element-1
       - any-element-2
 ```
+
+Real world's templates' examples are [HERE](/examples/EXAMPLES.md).
 
 ## Use cases
 
@@ -236,8 +236,11 @@ $ dept export react-eslint-prettier --filename fixed-react-eslint-prettier.json 
 You  can convet a JSON file to a YAML file with `dept json2yaml`.
 
 ```bash
-$ dept json2yaml --file ./data.json --filename data.yml --out-dir ./converted-dir
+$ dept json2yaml --file ./data.json --filename your-data.yml --out-dir ./converted-dir
 $ ls ./converted-dir/
+your-data.yml
+$ dept jy -f ./data.json # Short expression
+$ ls ./
 data.yml
 ```
 
@@ -246,8 +249,11 @@ data.yml
 You  can convet a YAML file to a JSON file with `dept yaml2json`.
 
 ```bash
-$ dept yaml2json --file ./data.yml --filename data.json --out-dir ./converted-dir
+$ dept yaml2json --file ./data.yml --filename your-data.json --out-dir ./converted-dir
 $ ls ./converted-dir/
+your-data.json
+$ dept yj -f ./data.yml # Short expression
+$ ls ./
 data.json
 ```
 

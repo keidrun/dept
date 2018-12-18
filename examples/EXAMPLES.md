@@ -1,13 +1,13 @@
 # Examples
 
-Example templates files are [HERE](/examples/templates).
+Examples of template files are [JSON](/examples/templates/json)/[YAML](/examples/templates/yaml).
 
 ## Prepare templates
 
 ```bash
-$ dept add nodejs-eslint-prettier -f ./nodejs-eslint-prettier-template.json
-$ dept add create-react-app-eslint-prettier -f ./create-react-app-eslint-prettier-template.json
-$ dept add reactnative-eslint-prettier -f ./reactnative-eslint-prettier-template.json
+$ dept add nodejs-eslint-prettier -f ./json/nodejs-eslint-prettier-template.json
+$ dept add create-react-app-eslint-prettier -f ./json/create-react-app-eslint-prettier-template.json
+$ dept add reactnative-eslint-prettier -f ./json/reactnative-eslint-prettier-template.json
 $ dept list
 * nodejs-eslint-prettier
   create-react-app-eslint-prettier
@@ -19,7 +19,8 @@ $ dept list
 ```bash
 mkdir your-nodejs-app
 cd your-nodejs-app
-dept install nodejs-eslint-prettier --yarn --init
+dept use yarn
+dept install nodejs-eslint-prettier
 ```
 
 ## Install Eslint and Prettier via a template for React app
@@ -27,7 +28,8 @@ dept install nodejs-eslint-prettier --yarn --init
 ```bash
 create-react-app your-react-app
 cd your-react-app
-dept install create-react-app-eslint-prettier --yarn
+dept use yarn
+dept install create-react-app-eslint-prettier
 ```
 
 ## Install Eslint and Prettier via a template for ReactNative app
@@ -35,5 +37,6 @@ dept install create-react-app-eslint-prettier --yarn
 ```bash
 react-native init your-react-native-app
 cd your-react-native-app
-dept install reactnative-eslint-prettier --yarn
+dept use yarn
+dept install reactnative-eslint-prettier
 ```

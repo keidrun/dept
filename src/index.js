@@ -86,13 +86,13 @@ const argv = yargs // eslint-disable-line
   })
   .option('filename', {
     alias: 'n',
-    describe: "Specify a filename of a JSON template file with 'export', 'json2yaml' or 'yaml2json'",
+    describe: "Specify a filename of a JSON or YAML file with 'export', 'json2yaml' or 'yaml2json'",
     type: 'string',
   })
   .option('out-dir', {
     alias: 'o',
     describe:
-      "Specify an output directory path to export a JSON template file with 'export', 'json2yaml' or 'yaml2json'",
+      "Specify an output directory path to export a JSON or YAML file with 'export', 'json2yaml' or 'yaml2json'",
     type: 'string',
   })
   .help()
