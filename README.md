@@ -1,6 +1,6 @@
-# dept [![NPM version][npm-image]][npm-url] [![npm module downloads][npm-downloads-image]][npm-downloads-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url] [![License: MIT][license-image]][license-url]
+# dept
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/keidrun/dept.svg)](https://greenkeeper.io/)
+[![NPM version][npm-image]][npm-url] [![npm module downloads][npm-downloads-image]][npm-downloads-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url] [![License: MIT][license-image]][license-url] [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
 
 Dependencies templates management CLI to install your fixed NPM or Yarn dependencies and cofing files to your project.
 
@@ -269,3 +269,5 @@ data.json
 [depstat-image]: https://david-dm.org/keidrun/dept.svg
 [license-url]: https://opensource.org/licenses/MIT
 [license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
+[greenkeeper-url]: https://greenkeeper.io/
+[greenkeeper-image]: https://badges.greenkeeper.io/keidrun/dept.svg
