@@ -14,4 +14,6 @@ jobs:
         provider: script
         skip_cleanup: true
         script:
-          - set -e ; yarn semantic-release
+          - yarn semantic-release
+      after_deploy:
+        - test ! -e /home/travis/.npm/_logs ; TRAVIS_TEST_RESULT=$?
