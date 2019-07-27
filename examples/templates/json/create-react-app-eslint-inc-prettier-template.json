@@ -74,6 +74,15 @@
             ]
           }
         ],
+        "prettier/prettier": [
+          "error",
+          {
+            "trailingComma": "es5",
+            "singleQuote": true,
+            "semi": true,
+            "printWidth": 120
+          }
+        ],
         "jsx-a11y/anchor-is-valid": [
           "error",
           {
@@ -90,12 +99,6 @@
           "onlyFilesWithFlowAnnotation": true
         }
       }
-    },
-    ".prettierrc": {
-      "trailingComma": "es5",
-      "singleQuote": true,
-      "semi": true,
-      "printWidth": 120
     }
   }
 }

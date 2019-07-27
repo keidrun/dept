@@ -1,22 +1,25 @@
 {
   "dependencies": {},
   "devDependencies": {
+    "chai": "*",
+    "cross-env": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
+    "eslint-config-prettier": "*",
     "eslint-plugin-import": "*",
     "eslint-plugin-node": "*",
+    "eslint-plugin-prettier": "*",
+    "mocha": "*",
+    "nodemon": "*",
     "prettier": "*",
-    "eslint-config-prettier": "*",
-    "jest": "*",
-    "eslint-plugin-jest": "*",
     "husky": "*",
     "lint-staged": "*"
   },
   "files": {
     ".eslintrc": {
-      "extends": ["airbnb-base", "plugin:jest/recommended", "prettier"],
-      "plugins": ["node", "jest"],
-      "env": { "node": true },
+      "extends": ["airbnb-base", "plugin:prettier/recommended"],
+      "plugins": ["node", "prettier"],
+      "env": { "node": true, "mocha": true },
       "parserOptions": { "ecmaVersion": 8 },
       "rules": {
         "node/exports-style": ["error", "module.exports"],
@@ -51,17 +54,22 @@
           }
         ],
         "no-underscore-dangle": "off"
-      }
+      },
+      "overrides": [
+        {
+          "files": "**/*.test.js",
+          "rules": {
+            "node/no-unpublished-require": "off",
+            "node/no-missing-require": "off"
+          }
+        }
+      ]
     },
     ".prettierrc": {
       "trailingComma": "es5",
       "singleQuote": true,
-      "semi": true,
+      "semi": false,
       "printWidth": 120
-    },
-    ".travis.yml": {
-      "language": "node_js",
-      "node_js": ["10", "12"]
     }
   }
 }
