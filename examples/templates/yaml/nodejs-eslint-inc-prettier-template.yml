@@ -5,6 +5,7 @@ devDependencies:
   eslint-plugin-import: '*'
   eslint-plugin-node: '*'
   prettier: '*'
+  eslint-plugin-prettier: '*'
   eslint-config-prettier: '*'
   jest: '*'
   eslint-plugin-jest: '*'
@@ -14,16 +15,23 @@ files:
   .eslintrc:
     extends:
       - airbnb-base
+      - 'plugin:prettier/recommended'
       - 'plugin:jest/recommended'
-      - prettier
     plugins:
       - node
+      - prettier
       - jest
     env:
       node: true
     parserOptions:
       ecmaVersion: 8
     rules:
+      prettier/prettier:
+        - error
+        - trailingComma: all
+          singleQuote: true
+          semi: true
+          printWidth: 120
       node/exports-style:
         - error
         - module.exports
@@ -58,11 +66,6 @@ files:
             - cb
             - callback
       no-underscore-dangle: 'off'
-  .prettierrc:
-    trailingComma: es5
-    singleQuote: true
-    semi: true
-    printWidth: 120
   .travis.yml:
     language: node_js
     node_js:

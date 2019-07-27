@@ -61,6 +61,12 @@ files:
             - error
             - cb
             - callback
+      prettier/prettier:
+        - error
+        - trailingComma: es5
+          singleQuote: true
+          semi: true
+          printWidth: 120
       jsx-a11y/anchor-is-valid:
         - error
         - components:
@@ -78,8 +84,3 @@ files:
     settings:
       flowtype:
         onlyFilesWithFlowAnnotation: true
-  .prettierrc:
-    trailingComma: es5
-    singleQuote: true
-    semi: true
-    printWidth: 120

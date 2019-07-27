@@ -61,7 +61,7 @@ files:
   .prettierrc:
     trailingComma: es5
     singleQuote: true
-    semi: true
+    semi: false
     printWidth: 120
   .travis.yml:
     language: node_js
