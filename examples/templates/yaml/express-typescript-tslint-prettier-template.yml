@@ -9,7 +9,7 @@ devDependencies:
   tslint: '*'
   tslint-config-airbnb: '*'
   tslint-config-prettier: '*'
-  tslint-plugin-prettier: v
+  tslint-plugin-prettier: '*'
   typescript: '*'
   typescript-tslint-plugin: '*'
 files:
