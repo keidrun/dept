@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "js-yaml": "^3.13.1",
-    "semver": "^6.3.0",
+    "semver": "^7.0.0",
     "yargs": "15.0.2"
   },
   "devDependencies": {
