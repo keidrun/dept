@@ -29,7 +29,7 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.6",
-    "@babel/node": "^7.7.0",
+    "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.7.1",
     "babel-core": "^7.0.0-bridge",
     "babel-eslint": "^10.0.3",
