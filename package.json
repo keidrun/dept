@@ -24,7 +24,7 @@
   "dependencies": {
     "js-yaml": "^3.13.1",
     "semver": "^7.0.0",
-    "yargs": "15.0.2"
+    "yargs": "15.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
