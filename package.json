@@ -22,7 +22,7 @@
   "author": "Keid",
   "license": "MIT",
   "dependencies": {
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.0",
     "semver": "^7.0.0",
     "yargs": "15.3.1"
   },
